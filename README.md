@@ -70,7 +70,7 @@ lib/
 ### Installation
 
 ```bash
-git clone <your-github-repo-link>
+git clone https://github.com/kawserfdev/SCUBE-CMS.git
 cd scubecms
 flutter pub get
 flutter run
