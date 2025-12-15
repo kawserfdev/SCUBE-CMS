@@ -43,6 +43,7 @@ class AppSizes {
   // Border radius
   static const double borderRadiusSm = 4.0;
   static const double borderRadiusMd = 8.0;
+  static const double borderRadius = 10.0;
   static const double borderRadiusLg = 12.0;
   static const double cardRadius = 18.0;
 
@@ -50,7 +51,7 @@ class AppSizes {
   static const double dividerHeight = 1.0;
 
   // Input field
-  static const double inputFieldRadius = 12.0;
+  static const double inputFieldRadius = 10.0;
   static const double spaceBtwInputFields = 16.0;
 
   // Card sizes

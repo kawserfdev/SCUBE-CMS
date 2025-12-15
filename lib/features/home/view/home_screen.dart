@@ -16,6 +16,7 @@ class HomeScreen extends GetView<HomeController> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        
         backgroundColor: _bg,
         body: SafeArea(
           child: Column(

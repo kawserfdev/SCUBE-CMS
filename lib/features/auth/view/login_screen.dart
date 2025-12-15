@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scubecms/core/constants/app_assets.dart';
 import 'package:scubecms/core/constants/app_colors.dart';
 
 import '../../../core/constants/app_sizes.dart';
@@ -12,17 +13,17 @@ class LoginScreen extends GetView<LoginController> {
     return InputDecoration(
       hintText: hint,
       hintStyle: const TextStyle(
-        color: AppColors.textSecondary,
-        fontSize: AppSizes.fontSizeXl,
+        color: AppColors.textMuted,
+        fontSize: AppSizes.fontSizeMd,
       ),
       suffixIcon: suffix,
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.lg),
-        borderSide: const BorderSide(color: AppColors.border, width: 2),
+        borderRadius: BorderRadius.circular(AppSizes.inputFieldRadius),
+        borderSide: const BorderSide(color: AppColors.border, width: 1),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.lg),
-        borderSide: const BorderSide(color: AppColors.primary, width: 2),
+        borderRadius: BorderRadius.circular(AppSizes.inputFieldRadius),
+        borderSide: const BorderSide(color: AppColors.primary, width: 1),
       ),
       contentPadding: const EdgeInsets.symmetric(
         horizontal: AppSizes.xl,
@@ -33,6 +34,7 @@ class LoginScreen extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    LoginController loginController = Get.put(LoginController());
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: SafeArea(
@@ -42,55 +44,38 @@ class LoginScreen extends GetView<LoginController> {
             Align(
               alignment: Alignment.topCenter,
               child: Padding(
-                padding: const EdgeInsets.only(top: AppSizes.xxl),
+                padding: const EdgeInsets.only(top: AppSizes.xxl * 2),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Logo placeholder (replace with Image.asset/SVG if you have it)
-                    Container(
-                      width: 110,
-                      height: 110,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.route_outlined,
-                          size: 54,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
+                    SizedBox(height: AppSizes.xxl),
+                    Image.asset(AppAssets.appLogo, width: 110, height: 110),
+                  
                     const SizedBox(
-                      height: AppSizes.xxl,
-                    ), // 22 -> 24 roughly or leaving 22
+                      height: AppSizes.xl,
+                    ), 
                     const Text(
                       'SCUBE',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                         letterSpacing: 1,
                       ),
                     ),
-                    const SizedBox(
-                      height: AppSizes.sm,
-                    ), // 10 -> sm (8) or md (12)
                     const Text(
                       'Control & Monitoring System',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-
             // Bottom white card
             Align(
               alignment: Alignment.bottomCenter,
@@ -100,8 +85,8 @@ class LoginScreen extends GetView<LoginController> {
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(44),
-                    topRight: Radius.circular(44),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
                 ),
                 child: SingleChildScrollView(
@@ -114,33 +99,39 @@ class LoginScreen extends GetView<LoginController> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppColors.textPrimary,
-                          fontSize: 40,
-                          fontWeight: FontWeight.w800,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       const SizedBox(
-                        height: AppSizes.spaceBtwSections,
-                      ), // 26 -> 32? or 24 (xxl)
+                        height: AppSizes.xxl,
+                      ),
                       // Username
                       TextFormField(
                         decoration: _fieldDecoration(hint: 'Username'),
                       ),
                       const SizedBox(
-                        height: AppSizes.spaceBtwInputFields,
+                        height: AppSizes.md,
                       ), // 18 -> 16
                       // Password
                       TextFormField(
-                        obscureText: true,
+                        obscureText: loginController.isPasswordVisible.value,
                         decoration: _fieldDecoration(
                           hint: 'Password',
-                          suffix: const Icon(
-                            Icons.remove_red_eye_outlined,
-                            color: AppColors.textSecondary,
+                          suffix: IconButton(
+                            onPressed: loginController.togglePasswordVisibility,
+                            icon: Icon( loginController.isPasswordVisible.value
+                                ? Icons.visibility_off_outlined
+                                : Icons.remove_red_eye_outlined,
+                              color: loginController.isPasswordVisible.value
+                                  ? AppColors.textSecondary
+                                  : AppColors.primary,
+                            ),
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: 10),
+                      const SizedBox(height: AppSizes.sm),
 
                       Align(
                         alignment: Alignment.centerRight,
@@ -150,31 +141,32 @@ class LoginScreen extends GetView<LoginController> {
                             'Forget password?',
                             style: TextStyle(
                               color: AppColors.textSecondary,
-                              fontSize: AppSizes.fontSizeLg,
+                              fontSize: AppSizes.fontSizeSm,
+                              fontWeight: FontWeight.w500,
                               decoration: TextDecoration.underline,
                             ),
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: AppSizes.spaceBtwInputFields),
+                      const SizedBox(height: AppSizes.xl),
 
                       SizedBox(
-                        height: 64,
+                        height: 60,
                         child: ElevatedButton(
-                          onPressed: controller.login,
+                          onPressed: loginController.login,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
                             foregroundColor: Colors.white,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
-                                AppSizes.cardRadius,
+                                AppSizes.borderRadius,
                               ),
                             ),
                           ),
                           child: Obx(
-                            () => controller.isLoading.value
+                            () => loginController.isLoading.value
                                 ? const SizedBox(
                                     height: 22,
                                     width: 22,
@@ -186,15 +178,15 @@ class LoginScreen extends GetView<LoginController> {
                                 : const Text(
                                     'Login',
                                     style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: AppSizes.spaceBtwInputFields),
+                      const SizedBox(height: AppSizes.sm),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -203,7 +195,8 @@ class LoginScreen extends GetView<LoginController> {
                             "Don’t have any account? ",
                             style: TextStyle(
                               color: AppColors.textSecondary,
-                              fontSize: 16,
+                              fontSize: AppSizes.fontSizeSm,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                           GestureDetector(
@@ -212,14 +205,14 @@ class LoginScreen extends GetView<LoginController> {
                               'Register Now',
                               style: TextStyle(
                                 color: AppColors.primary,
-                                fontSize: AppSizes.fontSizeXl,
-                                fontWeight: FontWeight.w800,
+                                fontSize: AppSizes.fontSizeMd,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: AppSizes.md),
+                      const SizedBox(height: AppSizes.xxl * 3),
                     ],
                   ),
                 ),
