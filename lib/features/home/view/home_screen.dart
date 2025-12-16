@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scubecms/core/constants/app_assets.dart';
+import 'package:scubecms/routes/app_routes.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_sizes.dart';
@@ -12,57 +13,12 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+
     return Obx(
       () => DefaultTabController(
         length: 3,
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: AppColors.white,
-            title: const Text(
-              'SCM',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: AppSizes.fontSizeLg,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            centerTitle: true,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_rounded,
-                color: AppColors.textDarkBlue,
-              ),
-              onPressed: () => Get.back(),
-            ),
-            actions: [
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      AppAssets.notification,
-                      width: AppSizes.iconMd,
-                      height: AppSizes.iconMd,
-                    ),
-                  ),
-                  if (controller.notificationLength.value + 1 > 0)
-                    Positioned(
-                      right: 13,
-                      top: 10,
-                      child: Container(
-                        width: 10,
-                        height: 10,
-                        decoration: const BoxDecoration(
-                          color: AppColors.notificationRed,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ],
-          ),
+          appBar: CustomAppBar(), 
 
           backgroundColor: AppColors.backgroundLightBlue,
           body: SafeArea(
@@ -87,7 +43,6 @@ class HomeScreen extends GetView<HomeController> {
                   ),
                 ),
 
-                // Bottom quick actions
                 const QuickActionsGrid(),
               ],
             ),
@@ -114,8 +69,7 @@ class HomeScreen extends GetView<HomeController> {
           PowerRing(kw: controller.totalPowerKw.value),
           const SizedBox(height: AppSizes.lg),
           SourceLoadSegment(controller: controller),
-          
-          DataListBox(items: items),
+          Expanded(child: DataListBox(items: items)),
         ],
       );
     });
@@ -125,10 +79,10 @@ class HomeScreen extends GetView<HomeController> {
     return Column(
       children: [
         const SectionTitle(title: "Single Line Diagram"),
-        const SizedBox(height: 20),
-        // Simple Schematic Visualization
+        const SizedBox(height: AppSizes.md),
         Container(
           padding: const EdgeInsets.all(16),
+          margin: EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             color: AppColors.white.withOpacity(.92),
             borderRadius: BorderRadius.circular(AppSizes.lg),
@@ -193,15 +147,19 @@ class HomeScreen extends GetView<HomeController> {
           ),
         ),
         const SizedBox(height: 20),
-        DataTile(
-          item: HomeDataItem(
-            title: "Main Bus Status",
-            statusText: "Normal",
-            isActive: true,
-            data1: 230.5,
-            data2: 50.0,
-            iconEmoji: "🔌",
-            colorBox: AppColors.primary,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal:  16),
+          child: DataTile(
+            item: HomeDataItem(
+              title: "Main Bus Status",
+              statusText: "Normal",
+              isActive: true,
+              data1: 230.5,
+              data2: 50.0,
+              iconEmoji: AppAssets.charge,
+              colorBox: AppColors.primary,
+             routeName: AppRoutes.analysis
+            ),
           ),
         ),
       ],
@@ -209,22 +167,25 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Widget _dataTab() {
-    return Column(
-      children: [
-        const SectionTitle(title: "System Data"),
-        ...controller.sourceItems.map(
-          (item) => Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: DataTile(item: item),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        children: [
+          const SectionTitle(title: "System Data"),
+          ...controller.sourceItems.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: DataTile(item: item),
+            ),
           ),
-        ),
-        ...controller.loadItems.map(
-          (item) => Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: DataTile(item: item),
+          ...controller.loadItems.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: DataTile(item: item),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -247,7 +208,7 @@ class _SldNode extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: AppColors.primary, width: 2),
           ),
-          child: Text(icon, style: const TextStyle(fontSize: 28)),
+          child: Image.asset(icon, height: 24,width: 24,),
         ),
         const SizedBox(height: AppSizes.sm),
         Text(

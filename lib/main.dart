@@ -12,7 +12,7 @@ void main() {
 class ScubeTaskApp extends StatelessWidget {
   const ScubeTaskApp({super.key});
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Scube CMS Task',

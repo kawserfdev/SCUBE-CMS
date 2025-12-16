@@ -2,15 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/constants/app_colors.dart';
 
-class ScreenController extends GetxController {
+class SourceDataController extends GetxController {
   final RxInt topSegment = 0.obs;
 
   final RxInt dateMode = 0.obs;
 
   final RxDouble gaugeValue = 55.00.obs; // kWh/Sqft
-  final RxDouble totalKw = 5.53.obs;
+  final RxDouble totalTodayKw = 5.53.obs;
+  final RxDouble totalCustomDateKw = 20.05.obs;
 
-  final items = <EnergyRowModel>[
+  final todaysItems = <EnergyRowModel>[
+    EnergyRowModel(
+      name: "Data A",
+      dotColor: AppColors.primary.value,
+      data: 2798.50,
+      percent: 29.53,
+      cost: 35689,
+    ),
+    EnergyRowModel(
+      name: "Data B",
+      dotColor: AppColors.chartCyan.value,
+      data: 72598.50,
+      percent: 35.39,
+      cost: 5259689,
+    ),
+    EnergyRowModel(
+      name: "Data C",
+      dotColor: AppColors.chartPurple.value,
+      data: 6598.36,
+      percent: 83.90,
+      cost: 5698756,
+    ),
+    EnergyRowModel(
+      name: "Data D",
+      dotColor: AppColors.chartOrange.value,
+      data: 6598.26,
+      percent: 36.59,
+      cost: 356987,
+    ),
+  ].obs;
+
+    final customDateItems = <EnergyRowModel>[
     EnergyRowModel(
       name: "Data A",
       dotColor: AppColors.primary.value,

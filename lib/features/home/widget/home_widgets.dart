@@ -1,6 +1,5 @@
-import 'dart:io';
-import 'dart:math' as math;
 
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scubecms/core/constants/app_assets.dart';
@@ -25,6 +24,65 @@ class DashboardCardShell extends StatelessWidget {
         border: Border.all(color: AppColors.borderLightBlue, width: 1.3),
       ),
       child: child,
+    );
+  }
+}
+class CustomAppBar extends GetView<HomeController>
+    implements PreferredSizeWidget {
+  const CustomAppBar({super.key});
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      backgroundColor: AppColors.white,
+      title: const Text(
+        'SCM',
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: AppSizes.fontSizeLg,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      centerTitle: true,
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back_rounded,
+          color: AppColors.textDarkBlue,
+        ),
+        onPressed: () => Get.back(),
+      ),
+      actions: [
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            IconButton(
+              onPressed: () {},
+              icon: Image.asset(
+                AppAssets.notification,
+                width: AppSizes.iconMd,
+                height: AppSizes.iconMd,
+              ),
+            ),
+            Obx(() => controller.notificationLength.value > 0
+                ? Positioned(
+                    right: 13,
+                    top: 10,
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: const BoxDecoration(
+                        color: AppColors.notificationRed,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink()),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -270,25 +328,31 @@ class DataListBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
 
-    final double visibleHeight = math.min(items.length * 140.0, 360.0);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double maxHeight = constraints.maxHeight.isFinite
+            ? constraints.maxHeight
+            : 360.0;
+        final double visibleHeight =
+            math.min(items.length * 140.0, maxHeight);
 
-    return GradientScrollbar(
-      controller: controller.dataScrollController,
-      child: SizedBox(
-        height: visibleHeight,
-        child: ListView.separated(
-          scrollDirection: Axis.vertical, 
-          physics: ClampingScrollPhysics(),
-
+        return GradientScrollbar(
           controller: controller.dataScrollController,
-          padding: EdgeInsets.zero,
-          itemCount: items.length,
-          itemBuilder: (_, index) {
-            return DataTile(item: items[index]);
-          },
-          separatorBuilder: (_, __) => const SizedBox(height: AppSizes.md),
-        ),
-      ),
+          child: SizedBox(
+            height: visibleHeight,
+            child: ListView.separated(
+              scrollDirection: Axis.vertical,
+              physics: const ClampingScrollPhysics(),
+              controller: controller.dataScrollController,
+              padding: EdgeInsets.zero,
+              itemCount: items.length,
+              itemBuilder: (_, index) => DataTile(item: items[index]),
+              separatorBuilder: (_, __) =>
+                  const SizedBox(height: AppSizes.md),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -299,128 +363,130 @@ class DataTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppSizes.sm),
-      decoration: BoxDecoration(
-        color: AppColors.tileBackground,
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
-        border: Border.all(color: AppColors.borderLightBlue, width: 1.1),
-      ),
-      child: Row(
-        children: [
-          Image.asset(item.iconEmoji, width:  AppSizes.xxl, height: AppSizes.xxl),
-         // Text(, style: const TextStyle(fontSize: 34)),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 12,
-                      height: 12,
-                      decoration: BoxDecoration(
-                        color: item.colorBox,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                    const SizedBox(width: AppSizes.sm),
-
-                    // ✅ Make title flexible
-                    Flexible(
-                      child: Text(
-                        item.title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textDarkBlue,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: AppSizes.sm),
-
-                    // ✅ Status stays compact
-                    Flexible(
-                      child: Text(
-                        item.statusText,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize:10,
-                          fontWeight: FontWeight.w500,
-                          color: item.isActive
-                              ? AppColors.primary
-                              : AppColors.statusRed,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 2),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: RichText(text: TextSpan(
+    return GestureDetector( 
+      onTap: () => Get.toNamed(item.routeName),
+      child: Container(
+        padding: const EdgeInsets.all(AppSizes.sm),
+        decoration: BoxDecoration(
+          color: AppColors.tileBackground,
+          borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
+          border: Border.all(color: AppColors.borderLightBlue, width: 1.1),
+        ),
+        child: Row(
+          children: [
+            Image.asset(item.iconEmoji, width:  AppSizes.xxl, height: AppSizes.xxl),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      TextSpan(
-                        text: "Data 1     : ",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: AppColors.textGrey,
-                          fontWeight: FontWeight.w400,
+                      Container(
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: item.colorBox,
+                          borderRadius: BorderRadius.circular(2),
                         ),
                       ),
-                      TextSpan(
-                        text: item.data1.toStringAsFixed(2),
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: AppColors.textDarkBlue,
-                          fontWeight: FontWeight.w600,
+                      const SizedBox(width: AppSizes.sm),
+      
+                      // ✅ Make title flexible
+                      Flexible(
+                        child: Text(
+                          item.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.textDarkBlue,
+                          ),
+                        ),
+                      ),
+      
+                      const SizedBox(width: AppSizes.sm),
+      
+                      // ✅ Status stays compact
+                      Flexible(
+                        child: Text(
+                          item.statusText,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize:10,
+                            fontWeight: FontWeight.w500,
+                            color: item.isActive
+                                ? AppColors.primary
+                                : AppColors.statusRed,
+                          ),
                         ),
                       ),
                     ],
-                  ))
-                ),
-                const SizedBox(height: 2),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: RichText(text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Data 2     : ",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: AppColors.textGrey,
-                          fontWeight: FontWeight.w400,
+                  ),
+      
+                  const SizedBox(height: 2),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: RichText(text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Data 1     : ",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textGrey,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: item.data2.toStringAsFixed(2),
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: AppColors.textDarkBlue,
-                          fontWeight: FontWeight.w600,
+                        TextSpan(
+                          text: item.data1.toStringAsFixed(2),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textDarkBlue,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                  )
-                ),
-              ],
+                      ],
+                    ))
+                  ),
+                  const SizedBox(height: 2),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: RichText(text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Data 2     : ",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textGrey,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        TextSpan(
+                          text: item.data2.toStringAsFixed(2),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textDarkBlue,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    )
+                    )
+                  ),
+                ],
+              ),
             ),
-          ),
-          const Icon(
-            Icons.chevron_right_rounded,
-            size: 24,
-            color: AppColors.iconGrey,
-          ),
-        ],
+            const Icon(
+              Icons.chevron_right_rounded,
+              size: 24,
+              color: AppColors.iconGrey,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -444,7 +510,7 @@ class QuickActionsGrid extends StatelessWidget {
                 child: QuickActionButton(
                   emoji:AppAssets.chart,
                   label: "Analysis Pro",
-                  onTap: () => Get.toNamed(AppRoutes.screen1),
+                  onTap: () => Get.toNamed(AppRoutes.analysis),
                 ),
               ),
               const SizedBox(width: AppSizes.md),
@@ -452,7 +518,7 @@ class QuickActionsGrid extends StatelessWidget {
                 child: QuickActionButton(
                   emoji: AppAssets.generator,
                   label: "G. Generator",
-                  onTap: () => Get.toNamed(AppRoutes.screen2),
+                  onTap: () => Get.toNamed(AppRoutes.analysis),
                 ),
               ),
             ],
@@ -464,7 +530,7 @@ class QuickActionsGrid extends StatelessWidget {
                 child: QuickActionButton(
                   emoji: AppAssets.charge,
                   label: "Plant Summery",
-                  onTap: () => Get.toNamed(AppRoutes.screen3),
+                  onTap: () => Get.toNamed(AppRoutes.analysis),
                 ),
               ),
               const SizedBox(width: AppSizes.md),
@@ -472,7 +538,7 @@ class QuickActionsGrid extends StatelessWidget {
                 child: QuickActionButton(
                   emoji:AppAssets.fire,
                   label: "Natural Gas",
-                  onTap: () => Get.toNamed(AppRoutes.screen4),
+                  onTap: () => Get.toNamed(AppRoutes.analysis),
                 ),
               ),
             ],
@@ -481,11 +547,11 @@ class QuickActionsGrid extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: QuickActionButton(emoji: AppAssets.generator, label: "D. Generator"),
+                child: QuickActionButton(emoji: AppAssets.generator, label: "D. Generator", onTap: () => Get.toNamed(AppRoutes.analysis),),
               ),
               SizedBox(width: AppSizes.md),
               Expanded(
-                child: QuickActionButton(emoji:AppAssets.faucet, label: "Water Process"),
+                child: QuickActionButton(emoji:AppAssets.faucet, label: "Water Process",onTap: () => Get.toNamed(AppRoutes.analysis),),
               ),
             ],
           ),
@@ -548,25 +614,22 @@ class NoDataView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return  Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSizes.xxl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.search_off_rounded,
-              size: 110,
-              color: AppColors.iconLightGrey,
-            ),
+             Image.asset(AppAssets.noDataFount, height: 200,),
+             
             SizedBox(height: 14),
             Text(
               "No data is here,\nplease wait.",
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.center,  
               style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF5A6575),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF5E5E5E),
               ),
             ),
           ],
