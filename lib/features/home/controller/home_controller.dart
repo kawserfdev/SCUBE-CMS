@@ -9,6 +9,8 @@ class HomeController extends GetxController {
 
   final RxDouble totalPowerKw = 5.53.obs;
 
+  final RxInt notificationLength = 7.obs;
+
   final RxList<HomeDataItem> sourceItems = <HomeDataItem>[].obs;
   final RxList<HomeDataItem> loadItems = <HomeDataItem>[].obs;
 

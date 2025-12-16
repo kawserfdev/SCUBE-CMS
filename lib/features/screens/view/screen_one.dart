@@ -204,7 +204,7 @@ class _SegmentedPill extends StatelessWidget {
               selected: selectedIndex == 0,
               text: leftText,
               onTap: () => onChanged(0),
-              activeColor: AppColors.activeBlue,
+              activeColor: AppColors.primary,
               inactiveColor: AppColors.textMuted,
             ),
           ),
@@ -213,7 +213,7 @@ class _SegmentedPill extends StatelessWidget {
               selected: selectedIndex == 1,
               text: rightText,
               onTap: () => onChanged(1),
-              activeColor: AppColors.activeBlue,
+              activeColor: AppColors.primary,
               inactiveColor: AppColors.textMuted,
             ),
           ),
@@ -427,7 +427,7 @@ class _RadioRow extends StatelessWidget {
                       ? Icons.radio_button_checked
                       : Icons.radio_button_off,
                   color: selectedIndex == 0
-                      ? AppColors.activeBlue
+                      ? AppColors.primary
                       : AppColors.textMuted,
                   size: 22,
                 ),
@@ -441,7 +441,7 @@ class _RadioRow extends StatelessWidget {
                         fontSize: 28,
                         fontWeight: FontWeight.w800,
                         color: selectedIndex == 0
-                            ? AppColors.activeBlue
+                            ? AppColors.primary
                             : AppColors.textMuted,
                       ),
                     ),
@@ -464,7 +464,7 @@ class _RadioRow extends StatelessWidget {
                       ? Icons.radio_button_checked
                       : Icons.radio_button_off,
                   color: selectedIndex == 1
-                      ? AppColors.activeBlue
+                      ? AppColors.primary
                       : AppColors.textMuted,
                   size: 22,
                 ),
@@ -478,7 +478,7 @@ class _RadioRow extends StatelessWidget {
                         fontSize: 28,
                         fontWeight: FontWeight.w800,
                         color: selectedIndex == 1
-                            ? AppColors.activeBlue
+                            ? AppColors.primary
                             : AppColors.textMuted,
                       ),
                     ),

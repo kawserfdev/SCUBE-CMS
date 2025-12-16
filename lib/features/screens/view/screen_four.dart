@@ -215,7 +215,7 @@ class _SegmentedPill extends StatelessWidget {
               selected: selectedIndex == 0,
               text: leftText,
               onTap: () => onChanged(0),
-              activeColor: AppColors.activeBlue,
+              activeColor: AppColors.primary,
               inactiveColor: AppColors.textMuted,
             ),
           ),
@@ -224,7 +224,7 @@ class _SegmentedPill extends StatelessWidget {
               selected: selectedIndex == 1,
               text: rightText,
               onTap: () => onChanged(1),
-              activeColor: AppColors.activeBlue,
+              activeColor: AppColors.primary,
               inactiveColor: AppColors.textMuted,
             ),
           ),
@@ -421,7 +421,7 @@ class _RadioRow extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onChanged;
 
-  static const Color _blue = AppColors.activeBlue;
+  static const Color _blue = AppColors.primary;
   static const Color _muted = AppColors.textMuted;
 
   @override
@@ -502,7 +502,7 @@ class _DateRow extends StatelessWidget {
   const _DateRow({required this.controller});
   final ScreenController controller;
 
-  static const Color _blue = AppColors.activeBlue;
+  static const Color _blue = AppColors.primary;
 
   @override
   Widget build(BuildContext context) {

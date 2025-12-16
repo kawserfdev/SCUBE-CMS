@@ -179,7 +179,7 @@ class _SegmentedPill extends StatelessWidget {
               selected: selectedIndex == 0,
               text: leftText,
               onTap: () => onChanged(0),
-              activeColor: AppColors.activeBlue,
+              activeColor: AppColors.primary,
               inactiveColor: AppColors.textMuted,
             ),
           ),
@@ -188,7 +188,7 @@ class _SegmentedPill extends StatelessWidget {
               selected: selectedIndex == 1,
               text: rightText,
               onTap: () => onChanged(1),
-              activeColor: AppColors.activeBlue,
+              activeColor: AppColors.primary,
               inactiveColor: AppColors.textMuted,
             ),
           ),
@@ -412,7 +412,7 @@ class _CollapsedInfoHeader extends StatelessWidget {
               height: 52,
               margin: const EdgeInsets.only(right: AppSizes.lg),
               decoration: const BoxDecoration(
-                color: AppColors.activeBlue,
+                color: AppColors.primary,
                 shape: BoxShape.circle,
               ),
               child: const Icon(

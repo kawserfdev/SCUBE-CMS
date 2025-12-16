@@ -14,18 +14,10 @@ class DashboardCardShell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: AppSizes.md),
-      padding: const EdgeInsets.all(AppSizes.sm + 2),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(.92),
-        borderRadius: BorderRadius.circular(AppSizes.lg),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
         border: Border.all(color: AppColors.borderLightBlue, width: 1.3),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.06),
-            blurRadius: AppSizes.lg,
-            offset: const Offset(0, 8),
-          ),
-        ],
       ),
       child: child,
     );
@@ -37,37 +29,50 @@ class DashboardTabs extends StatelessWidget {
 
   final ValueChanged<int> onChanged;
 
-  static const _blue = AppColors.primaryBlue;
+  static const _blue = AppColors.primary;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppSizes.buttonHeight,
-      padding: const EdgeInsets.all(AppSizes.xs),
+      height: 39,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
-        border: Border.all(color: AppColors.borderLightBlue, width: 1.2),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(AppSizes.borderRadiusLg),
+          topRight: Radius.circular(AppSizes.borderRadiusLg),
+        ),
+        border: Border(bottom: BorderSide(color: AppColors.borderLightBlue)),
       ),
       child: TabBar(
         onTap: onChanged,
         dividerColor: Colors.transparent,
+
+        splashFactory: NoSplash.splashFactory,
+        overlayColor: MaterialStateProperty.all(Colors.transparent),
+
+        indicatorSize: TabBarIndicatorSize.tab,
         indicator: BoxDecoration(
           color: _blue,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(AppSizes.borderRadius),
+            topRight: Radius.circular(AppSizes.borderRadius),
+          ),
         ),
+
         labelColor: Colors.white,
         unselectedLabelColor: AppColors.textGrey,
+
         labelStyle: const TextStyle(
-          fontSize: AppSizes.fontSizeXl,
+          fontSize: 14,
           fontWeight: FontWeight.w700,
         ),
         unselectedLabelStyle: const TextStyle(
-          fontSize: AppSizes.fontSizeXl,
+          fontSize: 15,
           fontWeight: FontWeight.w600,
         ),
+
         tabs: const [
-          Tab(text: "Summery"),
+          Tab(text: "Summary"),
           Tab(text: "SLD"),
           Tab(text: "Data"),
         ],
@@ -75,6 +80,7 @@ class DashboardTabs extends StatelessWidget {
     );
   }
 }
+
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({super.key, required this.title});
@@ -89,14 +95,13 @@ class SectionTitle extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
             color: AppColors.sectionTitle,
           ),
         ),
-        const SizedBox(height: 10),
-        Container(height: 1.2, color: AppColors.borderLightBlue),
-        const SizedBox(height: 14),
+        Divider( color: AppColors.textSecondary, height: 8),
+        const SizedBox(height: 6),
       ],
     );
   }
@@ -110,22 +115,22 @@ class PowerRing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
+      height: 150,
       width: double.infinity,
       child: FittedBox(
         fit: BoxFit.scaleDown,
         child: SizedBox(
-          height: 300,
-          width: 300,
+          height: 150,
+          width: 150,
           child: Stack(
             alignment: Alignment.center,
             children: [
               SizedBox(
-                height: 230,
-                width: 230,
+                height: 150,
+                width: 150,
                 child: CircularProgressIndicator(
                   value: 1,
-                  strokeWidth: 34,
+                  strokeWidth: 20,
                   backgroundColor: AppColors.ringBackground,
                   valueColor: const AlwaysStoppedAnimation<Color>(
                     AppColors.ringForeground,
@@ -138,18 +143,17 @@ class PowerRing extends StatelessWidget {
                   const Text(
                     "Total Power",
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 12,
                       color: AppColors.textVeryDarkBlue,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                  const SizedBox(height: AppSizes.sm),
                   Text(
                     "${kw.toStringAsFixed(2)} kw",
                     style: const TextStyle(
-                      fontSize: 34,
+                      fontSize: 16,
                       color: AppColors.textDarkBlue,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
@@ -167,18 +171,22 @@ class SourceLoadSegment extends StatelessWidget {
 
   final HomeController controller;
 
-  static const _blue = AppColors.primaryBlue;
+  static const _blue = AppColors.primary;
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       final idx = controller.segmentIndex.value;
       return Container(
-        height: AppSizes.appBarHeight,
-        padding: const EdgeInsets.all(5),
+        height: 32,
+        margin: const EdgeInsets.symmetric(
+          horizontal: AppSizes.md, 
+          vertical: AppSizes.lg,
+        ),
+       // padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: AppColors.segmentBackground,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
           children: [
@@ -224,17 +232,17 @@ class _SegmentButton extends StatelessWidget {
       duration: const Duration(milliseconds: 180),
       decoration: BoxDecoration(
         color: selected ? selectedColor : Colors.transparent,
-        borderRadius: BorderRadius.circular(26),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(26),
+        borderRadius: BorderRadius.circular(16),
         onTap: onTap,
         child: Center(
           child: Text(
             label,
             style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
               color: selected ? Colors.white : AppColors.textMuted,
             ),
           ),
@@ -258,18 +266,20 @@ class DataListBox extends StatelessWidget {
         border: Border.all(color: AppColors.borderLightBlue, width: 1.2),
         borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
       ),
-      child: Column(
-        children: items.asMap().entries.map((entry) {
-          final index = entry.key;
-          final item = entry.value;
-          return Padding(
-            padding: EdgeInsets.only(
-              bottom: index < items.length - 1 ? AppSizes.md : 0,
-            ),
-            child: DataTile(item: item),
-          );
-        }).toList(),
-      ),
+      child: ListView.builder(
+        itemCount: items.length, 
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+        final item = items[index];
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: index < items.length - 1 ? AppSizes.md : 0,
+          ),
+          child: DataTile(item: item),
+        );
+      }),
+      
     );
   }
 }
@@ -334,7 +344,7 @@ class DataTile extends StatelessWidget {
                           fontSize: AppSizes.fontSizeLg,
                           fontWeight: FontWeight.w700,
                           color: item.isActive
-                              ? AppColors.primaryBlue
+                              ? AppColors.primary
                               : AppColors.statusRed,
                         ),
                       ),

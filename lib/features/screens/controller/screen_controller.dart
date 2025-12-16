@@ -13,7 +13,7 @@ class ScreenController extends GetxController {
   final items = <EnergyRowModel>[
     EnergyRowModel(
       name: "Data A",
-      dotColor: AppColors.activeBlue.value,
+      dotColor: AppColors.primary.value,
       data: 2798.50,
       percent: 29.53,
       cost: 35689,

@@ -18,16 +18,14 @@ class AppColors {
   static const Color cardGradientEnd = Color(0xFF9F56FF);
 
   // New UI Colors
-  static const Color backgroundLightBlue = Color(0xFFD9E7F6);
+  static const Color backgroundLightBlue = Color(0xFFD9E4F1);
   static const Color textDarkBlue = Color(0xFF0D1B35);
   static const Color borderLightBlue = Color(0xFFB9C7DA);
   static const Color textMuted = Color(0xFF7B8794);
-  static const Color primaryBlue = Color(0xFF0091FF); // 0091FF
-  static const Color activeBlue = Color(0xFF0A84FF); // 0A84FF
   static const Color textGrey = Color(0xFF5A6575);
   static const Color sectionTitle = Color(0xFF9AA0A6);
   static const Color ringBackground = Color(0xFFE6EEF7);
-  static const Color ringForeground = Color(0xFF2F8AC7);
+  static const Color ringForeground = Color(0xFF398FC9);
   static const Color textVeryDarkBlue = Color(0xFF13213A);
   static const Color segmentBackground = Color(0xFFE8EFF7);
   static const Color tileBackground = Color(0xFFEAF3FF);
