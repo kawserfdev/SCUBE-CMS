@@ -112,8 +112,9 @@ class HomeScreen extends GetView<HomeController> {
           const SectionTitle(title: "Electricity"),
           const SizedBox(height: AppSizes.md),
           PowerRing(kw: controller.totalPowerKw.value),
+          const SizedBox(height: AppSizes.lg),
           SourceLoadSegment(controller: controller),
-          Divider(color: AppColors.border,thickness: 2,height: 0.0,),
+          
           DataListBox(items: items),
         ],
       );

@@ -20,7 +20,7 @@ class AppColors {
   // New UI Colors
   static const Color backgroundLightBlue = Color(0xFFD9E4F1);
   static const Color textDarkBlue = Color(0xFF0D1B35);
-  static const Color borderLightBlue = Color(0xFFB9C7DA);
+  static const Color borderLightBlue = Color(0xFFB6B8D0);
   static const Color textMuted = Color(0xFF7B8794);
   static const Color textGrey = Color(0xFF5A6575);
   static const Color sectionTitle = Color(0xFF9AA0A6);

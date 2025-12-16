@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scubecms/core/constants/app_assets.dart';
 import '../../../core/constants/app_colors.dart';
 
 class HomeController extends GetxController {
+    final ScrollController dataScrollController = ScrollController();
+
+
   final RxInt tabIndex = 0.obs;
 
   final RxInt segmentIndex = 0.obs;
@@ -27,7 +31,7 @@ class HomeController extends GetxController {
         isActive: true,
         data1: 55505.63,
         data2: 58805.63,
-        iconEmoji: "🔆",
+        iconEmoji: AppAssets.solar,
         colorBox: AppColors.dataBlue,
       ),
       HomeDataItem(
@@ -36,7 +40,7 @@ class HomeController extends GetxController {
         isActive: true,
         data1: 55505.63,
         data2: 58805.63,
-        iconEmoji: "🖥️",
+        iconEmoji:  AppAssets.battery ,
         colorBox: AppColors.dataOrange,
       ),
       HomeDataItem(
@@ -45,7 +49,7 @@ class HomeController extends GetxController {
         isActive: false,
         data1: 55505.63,
         data2: 58805.63,
-        iconEmoji: "⚡",
+        iconEmoji:  AppAssets.pawer,
         colorBox: AppColors.dataBlue,
       ),
     ]);
@@ -57,10 +61,15 @@ class HomeController extends GetxController {
         isActive: true,
         data1: 12005.22,
         data2: 18001.10,
-        iconEmoji: "🏭",
+        iconEmoji: AppAssets.solar,
         colorBox: AppColors.dataBlue,
       ),
     ]);
+  }
+    @override
+  void onClose() {
+    dataScrollController.dispose();
+    super.onClose();
   }
 }
 
