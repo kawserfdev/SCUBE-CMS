@@ -7,7 +7,18 @@ class SourceDataController extends GetxController {
 
   final RxInt dateMode = 0.obs;
 
-  final RxDouble gaugeValue = 55.00.obs; // kWh/Sqft
+  final RxDouble gaugeValue = 55.00.obs; // todaysItems.percent sumasion (+) all index are add in the variable
+  final RxDouble energyData= 0.00.obs; // todaysItems.data sumasion (+) all index are add in the variable
+  final RxDouble energyCost= 0.00.obs; // todaysItems.cost sumasion (+) all index are add in the variable
+
+  final RxDouble customDateGaugeValue = 55.00.obs; // customDateItems.percent sumasion (+) all index are add in the variable
+  final RxDouble customDateEnergyData= 0.00.obs; // customDateItems.data sumasion (+) all index are add in the variable
+  final RxDouble customDateEnergyCost= 0.00.obs; // customDateItems.cost sumasion (+) all index are add in the variable
+
+  final RxDouble revenueAmount= 28897455.00.obs; // revenueRows.data sumasion (+) all index are add in the variable
+  final RxDouble costRevenueGaugeValue = 100000000.00.obs; // revenueRows.cost sumasion (+) all index are add in the variable
+  final RxDouble percentRevenueGaugeValue = 87.00.obs; // revenueRows.percent sumasion (+) all index are add in the variable
+
   final RxDouble totalTodayKw = 5.53.obs;
   final RxDouble totalCustomDateKw = 20.05.obs;
 
@@ -80,18 +91,17 @@ class SourceDataController extends GetxController {
 
   // demo revenue rows
   final revenueRows = <RevenueRow>[
-    RevenueRow(data: 2798.50, percent: 29.53, cost: 35689),
+    RevenueRow(data: 2798.50, percent: 29.53, cost: 35689), 
     RevenueRow(data: 2798.50, percent: 29.53, cost: 35689),
     RevenueRow(data: 2798.50, percent: 29.53, cost: 35689),
     RevenueRow(data: 2798.50, percent: 29.53, cost: 35689),
   ].obs;
 
-  /// Screen Four
-  final RxDouble dataGaugeValue = 57.00.obs; // 57.00 kWh/Sqft
-  final RxDouble energyKwTop = 20.05.obs; // first card
-  final RxDouble energyKwBottom = 5.53.obs; // second card
+  final RxDouble dataGaugeValue = 57.00.obs; 
+  final RxDouble energyKwTop = 20.05.obs;
+  final RxDouble energyKwBottom = 5.53.obs;
 
-  final RxInt dateModeStatistics = 1.obs; // 0=Today Data, 1=Custom Date Data
+  final RxInt dateModeStatistics = 1.obs; 
 
   final Rxn<DateTime> fromDate = Rxn<DateTime>();
   final Rxn<DateTime> toDate = Rxn<DateTime>();

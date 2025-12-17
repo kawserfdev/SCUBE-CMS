@@ -83,13 +83,11 @@ class RevenueViewTab extends GetView<SourceDataController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 18),
-
         Obx(
           () => RevenueSemiGauge(
-            valueText: controller.gaugeValue.value.toStringAsFixed(2),
+            valueText: controller.revenueAmount.value.toStringAsFixed(2),
             unitText: "tk",
-            progress: _mapGaugeToProgress(controller.gaugeValue.value),
+            progress: _mapGaugeToProgress(controller.revenueAmount.value),
           ),
         ),
         const SizedBox(height: AppSizes.xxl * 3),
@@ -106,7 +104,7 @@ class RevenueViewTab extends GetView<SourceDataController> {
   }
 
   double _mapGaugeToProgress(double v) {
-    final x = v.clamp(0, 100);
-    return x / 100.0;
+    final x = v.clamp(0, controller.totalRevenueGaugeValue.value);
+    return x / controller.totalRevenueGaugeValue.value;
   }
 }

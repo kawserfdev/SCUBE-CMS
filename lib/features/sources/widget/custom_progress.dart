@@ -18,7 +18,7 @@ class SemiGaugePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     const stroke = 18.0;
 
-    final padding = 12.0;
+    final padding = 8.0;
     final rect = Rect.fromLTWH(
       padding,
       padding,

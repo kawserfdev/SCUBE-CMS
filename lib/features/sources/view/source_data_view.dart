@@ -20,14 +20,14 @@ class SourceDataView extends GetView<SourceDataController> {
           clipBehavior: Clip.hardEdge,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 40),
+              padding: EdgeInsets.only(top: AppSizes.xl * 2),
               child: Obx(
                 () => Container(
                   height: double.infinity,
                   width: double.infinity,
-                  padding: const EdgeInsets.all(AppSizes.xxl),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSizes.xxl),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(.92),
+                    color: AppColors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(AppSizes.xl),
                       topRight: Radius.circular(AppSizes.xl),
