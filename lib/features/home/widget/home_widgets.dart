@@ -614,26 +614,31 @@ class NoDataView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSizes.xxl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-             Image.asset(AppAssets.noDataFount, height: 200,),
-             
-            SizedBox(height: 14),
-            Text(
-              "No data is here,\nplease wait.",
-              textAlign: TextAlign.center,  
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Color(0xFF5E5E5E),
-              ),
+    return  Container(
+      height: double.infinity, 
+      width: double.infinity,
+      margin: EdgeInsets.fromLTRB(AppSizes.xxl, AppSizes.md, AppSizes.xxl, AppSizes.xxl),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+          borderRadius: BorderRadius.circular(12)
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+           Image.asset(AppAssets.noDataFount, height: 200,),
+           
+          SizedBox(height: 14),
+          Text(
+            "No data is here,\nplease wait.",
+            textAlign: TextAlign.center,  
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: Color(0xFF5E5E5E),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

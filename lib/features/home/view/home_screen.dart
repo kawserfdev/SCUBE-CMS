@@ -25,7 +25,7 @@ class HomeScreen extends GetView<HomeController> {
             child: Column(
               children: [
                 const SizedBox(height: AppSizes.md),
-
+            
                 Expanded(
                   child: DashboardCardShell(
                     child: Column(
@@ -42,7 +42,7 @@ class HomeScreen extends GetView<HomeController> {
                     ),
                   ),
                 ),
-
+            
                 const QuickActionsGrid(),
               ],
             ),
