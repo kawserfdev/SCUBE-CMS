@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scubecms/core/constants/app_assets.dart';
+import 'package:scubecms/features/home/widget/sldnode_widget.dart';
 import 'package:scubecms/routes/app_routes.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -102,7 +103,7 @@ class HomeScreen extends GetView<HomeController> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: controller.sourceItems
                     .take(2)
-                    .map((e) => _SldNode(icon: e.iconEmoji, label: e.title))
+                    .map((e) => SldNode(icon: e.iconEmoji, label: e.title))
                     .toList(),
               ),
               const SizedBox(height: AppSizes.sm),
@@ -132,7 +133,7 @@ class HomeScreen extends GetView<HomeController> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: controller.loadItems
                     .take(2)
-                    .map((e) => _SldNode(icon: e.iconEmoji, label: e.title))
+                    .map((e) => SldNode(icon: e.iconEmoji, label: e.title))
                     .toList(),
               ),
               const SizedBox(height: AppSizes.sm),
@@ -190,36 +191,3 @@ class HomeScreen extends GetView<HomeController> {
   }
 }
 
-class _SldNode extends StatelessWidget {
-  const _SldNode({required this.icon, required this.label});
-  final String icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: AppColors.tileBackground,
-            shape: BoxShape.circle,
-            border: Border.all(color: AppColors.primary, width: 2),
-          ),
-          child: Image.asset(icon, height: 24,width: 24,),
-        ),
-        const SizedBox(height: AppSizes.sm),
-        Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: AppSizes.fontSizeSm,
-            color: AppColors.textDarkBlue,
-          ),
-        ),
-      ],
-    );
-  }
-}

@@ -3,7 +3,7 @@ import '../../../routes/app_routes.dart';
 
 class LoginController extends GetxController {
   final isLoading = false.obs;
-  RxBool isPasswordVisible = false.obs;
+  RxBool isPasswordVisible = true.obs;
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
