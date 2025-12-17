@@ -104,7 +104,7 @@ class RevenueViewTab extends GetView<SourceDataController> {
   }
 
   double _mapGaugeToProgress(double v) {
-    final x = v.clamp(0, controller.totalRevenueGaugeValue.value);
-    return x / controller.totalRevenueGaugeValue.value;
+    final x = v.clamp(0, controller.costRevenueGaugeValue.value);
+    return x / controller.costRevenueGaugeValue.value;
   }
 }
