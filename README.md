@@ -1,118 +1,62 @@
-# 📱 Scube Flutter Assignment
+# SCUBE CMS Mobile
 
-A Flutter application developed as part of the **Flutter Developer recruitment task** for **Scube Technologies Ltd**.
-The project follows **clean architecture**, **GetX state management**, and **pixel-perfect UI** implementation based on the provided Figma design.
+A Flutter app showcasing a SCUBE CMS dashboard, built with GetX and a feature-first architecture using reusable UI components.
+---
+
+## Features
+Authentication flow with a login screen wired via GetX bindings.
+
+Named route navigation managed by AppRoutes/AppPages.
+
+Dashboard home with Summary, Single Line Diagram, and Data tabs.
+
+Source data module with gauges, segmented controls, date filters, and revenue cards.
+
+Centralized theming via core/constants and core/theme.
 
 ---
 
-## 🔗 Design References
-
-* **Figma Design:** Provided by Scube Technologies Ltd
-* **Figma Prototype:** Navigation and interaction flow followed exactly
-
----
-
-## 🛠️ Tech Stack
-
-* **Flutter** (Stable, Null Safety)
-* **GetX**
-
-  * State Management
-  * Navigation
-  * Dependency Injection
-* **Dart**
-* **Material UI**
+## Tech Stack
+- Flutter (stable, null safety)
+- GetX (state, navigation, UI)
+- Dart + Material widgets
 
 ---
 
-## 🏗️ Project Architecture
-
-The project uses a **feature-based clean architecture** with GetX:
-
+## Project Structure
 ```
 lib/
-├── core/
-│   ├── constants/
-│   ├── theme/
-│   └── widgets/
-├── features/
-│   ├── home/
-│   │   ├── controller/
-│   │   ├── model/
-│   │   ├── view/
-│   │   └── widget/
-├── routes/
-├── bindings/
-└── main.dart
+  core/
+    constants/   # colors, sizes, assets
+    theme/       # light theme
+    widgets/     # shared UI components
+  features/
+    auth/        # login screen + binding
+    home/        # dashboard views, controllers, widgets
+    sources/     # source data tabs, widgets, controllers
+  routes/        # AppRoutes & AppPages
+  bindings/      # initial binding
+  main.dart      # app entrypoint
 ```
 
 ---
 
-## 🎨 UI Implementation
-
-* Pixel-perfect UI matching Figma
-* Responsive layouts
-* Reusable custom widgets
-* Centralized styling and theming
-
----
-
-## 🚀 Getting Started
-
+## Getting Started
 ### Prerequisites
+- Flutter SDK (latest stable)
+- Android Studio or VS Code
+- Android emulator or physical device
 
-* Flutter SDK (latest stable)
-* Android Studio / VS Code
-* Android Emulator or Physical Device
-
----
-
-### Installation
-
+### Install & Run
 ```bash
 git clone https://github.com/kawserfdev/SCUBE-CMS.git
-cd scubecms
+cd SCUBE-CMS
 flutter pub get
 flutter run
+
 ```
 
 ---
 
-## 🔄 State Management
-
-* **GetX Controllers** handle business logic
-* `Obx` widgets used only where reactive updates are required
-* Clean separation of UI and logic
-
----
-
-## 🧭 Navigation
-
-* Implemented using **GetX named routes**
-* Navigation flow strictly follows Figma Prototype
-
----
-
-## 📸 Screenshots
-
-Screenshots of all completed screens are attached separately as:
-
-* PDF / Image files (as required)
-
----
-
-## 📌 Notes
-
-* Backend APIs were not provided; mock/static data is used where necessary
-* The project focuses on **UI accuracy, code quality, and architecture**
-
----
-
-## 👤 Author
-
-**Kawser Ahmed**
-Flutter Developer
-
----
-
-Thank you for reviewing this assignment.
+## Author
+Kawser Ahmed — Flutter Developer
