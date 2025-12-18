@@ -40,7 +40,6 @@ class LoginScreen extends GetView<LoginController> {
       body: SafeArea(
         child: Stack(
           children: [
-            // Top blue section
             Align(
               alignment: Alignment.topCenter,
               child: Padding(
@@ -76,7 +75,6 @@ class LoginScreen extends GetView<LoginController> {
                 ),
               ),
             ),
-            // Bottom white card
             Obx(
               ()=> Align(
                 alignment: Alignment.bottomCenter,

@@ -11,9 +11,6 @@ class HomeController extends GetxController {
 
   final RxDouble totalPowerKw = 0.0.obs;
 
-  final RxDouble sourceTotalData1 = 0.0.obs;
-  final RxDouble loadTotalData1 = 0.0.obs;
-
   final RxInt notificationLength = 7.obs;
 
   final RxList<HomeDataItem> sourceItems = <HomeDataItem>[].obs;
@@ -80,47 +77,8 @@ class HomeController extends GetxController {
         routeName: AppRoutes.sourceDataView,
       ),
     ]);
-
-    _recalcSourceTotals();
-    _recalcLoadTotals();
-    _syncSelectedSegmentView();
-
-    ever<List<HomeDataItem>>(sourceItems, (_) {
-      _recalcSourceTotals();
-      _syncSelectedSegmentView();
-    });
-
-    ever<List<HomeDataItem>>(loadItems, (_) {
-      _recalcLoadTotals();
-      _syncSelectedSegmentView();
-    });
-
-    ever<int>(segmentIndex, (_) => _syncSelectedSegmentView());
   }
 
-  void _recalcSourceTotals() {
-    _recalcTotals(sourceItems, sourceTotalData1);
-  }
-
-  void _recalcLoadTotals() {
-    _recalcTotals(loadItems, loadTotalData1);
-  }
-
-  void _recalcTotals(
-    List<HomeDataItem> items,
-    RxDouble total1,
-  ) {
-    total1.value = items.fold<double>(
-      0.0,
-      (sum, item) => sum + item.data1,
-    );
-  }
-
-  void _syncSelectedSegmentView() {
-    final bool isSource = segmentIndex.value == 0;
-    totalPowerKw.value = isSource ? sourceTotalData1.value : loadTotalData1.value;
-    hasData.value = isSource ? sourceItems.isNotEmpty : loadItems.isNotEmpty;
-  }
 
   @override
   void onClose() {

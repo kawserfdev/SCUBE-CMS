@@ -22,21 +22,6 @@ class AppPages {
       page: () => const SourceDataView(),
       binding: SourceDataBinding(),
     ),
-    // GetPage(
-    //   name: AppRoutes.screen2,
-    //   page: () => const ScreenTwo(),
-    //   binding: ScreenBinding(),
-    // ),
-    // GetPage(
-    //   name: AppRoutes.screen3,
-    //   page: () => const ScreenThree(),
-    //   binding: ScreenBinding(),
-    // ),
-    // GetPage(
-    //   name: AppRoutes.screen4,
-    //   page: () => const ScreenFour(),
-    //   binding: ScreenBinding(),
-    // ),
     GetPage(name: AppRoutes.analysis, 
     page:()=> AnalysisScreen(), 
     )
