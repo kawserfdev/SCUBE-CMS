@@ -7,20 +7,21 @@ class SourceDataController extends GetxController {
 
   final RxInt dateMode = 0.obs;
 
-  final RxDouble gaugeValue = 0.00.obs; // derived percent share of today's rows
-  final RxDouble energyData = 0.00.obs; // todaysItems.data sumasion (+) all index are add in the variable
-  final RxDouble energyCost = 0.00.obs; // todaysItems.cost sumasion (+) all index are add in the variable
+  final RxDouble todayGaugeValue = 55.00.obs;
+  final RxDouble todayEnergyData = 0.00.obs;
+  final RxDouble todayEnergyCost = 0.00.obs;
 
-  final RxDouble customDateGaugeValue = 0.00.obs; // derived percent share of custom date rows
-  final RxDouble customDateEnergyData = 0.00.obs; // customDateItems.data sumasion (+) all index are add in the variable
-  final RxDouble customDateEnergyCost = 0.00.obs; // customDateItems.cost sumasion (+) all index are add in the variable
+  final RxDouble customDateGaugeValue = 3.00.obs;
+  final RxDouble customDateEnergyData = 0.00.obs;
+  final RxDouble customDateEnergyCost = 0.00.obs;
 
-  final RxDouble revenueAmount = 0.00.obs; // revenueRows.data sumasion (+) all index are add in the variable
-  final RxDouble costRevenueGaugeValue = 0.00.obs; // revenueRows.cost sumasion (+) all index are add in the variable
-  final RxDouble percentRevenueGaugeValue = 0.00.obs; // derived percent share of revenue rows
+  double gaugeValue() => todayGaugeValue.value + customDateGaugeValue.value;
+  double energyData() => todayEnergyData.value + customDateEnergyData.value;
+  double energyCost() => todayEnergyCost.value + customDateEnergyCost.value;
 
-  // Used as a "max" value for RevenueSemiGauge progress mapping in `tab_view.dart`.
- // final RxDouble totalRevenueGaugeValue = 100000000.00.obs;
+  final RxDouble revenueAmount = 0.00.obs;
+  final RxDouble costRevenueGaugeValue = 0.00.obs;
+  final RxDouble percentRevenueGaugeValue = 0.00.obs;
 
   final RxDouble totalTodayKw = 5.53.obs;
   final RxDouble totalCustomDateKw = 20.05.obs;
@@ -29,30 +30,30 @@ class SourceDataController extends GetxController {
     EnergyRowModel(
       name: "Data A",
       dotColor: AppColors.primary.value,
-      data: 2798.50,
+      data: 278.50,
       cost: 35689,
     ),
     EnergyRowModel(
       name: "Data B",
       dotColor: AppColors.chartCyan.value,
-      data: 72598.50,
+      data: 728.50,
       cost: 5259689,
     ),
     EnergyRowModel(
       name: "Data C",
       dotColor: AppColors.chartPurple.value,
-      data: 6598.36,
+      data: 598.36,
       cost: 5698756,
     ),
     EnergyRowModel(
       name: "Data D",
       dotColor: AppColors.chartOrange.value,
-      data: 6598.26,
+      data: 658.26,
       cost: 356987,
     ),
   ].obs;
 
-    final customDateItems = <EnergyRowModel>[
+  final customDateItems = <EnergyRowModel>[
     EnergyRowModel(
       name: "Data A",
       dotColor: AppColors.primary.value,
@@ -81,22 +82,17 @@ class SourceDataController extends GetxController {
 
   /// Screen Two
   // Revenue screen
-  final RxDouble revenueValue = 8897455.0.obs; // center number
   final RxBool revenueExpanded = true.obs;
 
   // demo revenue rows
   final revenueRows = <RevenueRow>[
-    RevenueRow(data: 2798.50, cost: 35689),
-    RevenueRow(data: 2798.50, cost: 35689),
-    RevenueRow(data: 2798.50, cost: 35689),
-    RevenueRow(data: 2798.50, cost: 35689),
+    RevenueRow(data: 3244.50, cost: 3839),
+    RevenueRow(data: 1322.50, cost: 2344),
+    RevenueRow(data: 3321.50, cost: 2345),
+    RevenueRow(data: 1202.50, cost: 6879),
   ].obs;
 
-  final RxDouble dataGaugeValue = 57.00.obs; 
-  final RxDouble energyKwTop = 20.05.obs;
-  final RxDouble energyKwBottom = 5.53.obs;
-
-  final RxInt dateModeStatistics = 1.obs; 
+  final RxInt dateModeStatistics = 1.obs;
 
   final Rxn<DateTime> fromDate = Rxn<DateTime>();
   final Rxn<DateTime> toDate = Rxn<DateTime>();
@@ -115,36 +111,48 @@ class SourceDataController extends GetxController {
   }
 
   void _recalcTodayTotals() {
-    final totalData = todaysItems.fold<double>(0.0, (sum, row) => sum + row.data);
-    final totalCost =
-        todaysItems.fold<double>(0.0, (sum, row) => sum + row.cost.toDouble());
-
-    energyData.value = totalData;
-    energyCost.value = totalCost;
-
-    gaugeValue.value = todaysItems.fold<double>(
+    final totalData = todaysItems.fold<double>(
       0.0,
-      (sum, row) => sum + percentForTodaysItem(row),
+      (sum, row) => sum + row.data,
     );
+    final totalCost = todaysItems.fold<double>(
+      0.0,
+      (sum, row) => sum + row.cost.toDouble(),
+    );
+
+    todayEnergyData.value = totalData;
+    todayEnergyCost.value = totalCost;
+
+    // todayGaugeValue.value = todaysItems.fold<double>(
+    //   0.0,
+    //   (sum, row) => sum + percentForTodaysItem(row),
+    // );
   }
 
   void _recalcCustomDateTotals() {
-    final totalData =
-        customDateItems.fold<double>(0.0, (sum, row) => sum + row.data);
-    final totalCost =
-        customDateItems.fold<double>(0.0, (sum, row) => sum + row.cost.toDouble());
+    final totalData = customDateItems.fold<double>(
+      0.0,
+      (sum, row) => sum + row.data,
+    );
+    final totalCost = customDateItems.fold<double>(
+      0.0,
+      (sum, row) => sum + row.cost.toDouble(),
+    );
 
     customDateEnergyData.value = totalData;
     customDateEnergyCost.value = totalCost;
 
-    customDateGaugeValue.value = customDateItems.fold<double>(
-      0.0,
-      (sum, row) => sum + percentForCustomItem(row),
-    );
+    // customDateGaugeValue.value = customDateItems.fold<double>(
+    //   0.0,
+    //   (sum, row) => sum + percentForCustomItem(row),
+    // );
   }
 
   void _recalcRevenueTotals() {
-    final totalData = revenueRows.fold<double>(0.0, (sum, row) => sum + row.data);
+    final totalData = revenueRows.fold<double>(
+      0.0,
+      (sum, row) => sum + row.data,
+    );
     final totalCost = revenueRows.fold<double>(
       0.0,
       (sum, row) => sum + row.cost.toDouble(),
@@ -153,8 +161,10 @@ class SourceDataController extends GetxController {
     revenueAmount.value = totalData;
     costRevenueGaugeValue.value = totalCost;
 
-    percentRevenueGaugeValue.value =
-        revenueRows.fold<double>(0.0, (sum, row) => sum + percentForRevenueRow(row));
+    percentRevenueGaugeValue.value = revenueRows.fold<double>(
+      0.0,
+      (sum, row) => sum + percentForRevenueRow(row),
+    );
   }
 
   double _calculatePercent({
@@ -178,25 +188,25 @@ class SourceDataController extends GetxController {
   }
 
   double percentForTodaysItem(EnergyRowModel row) => _calculatePercent(
-        data: row.data,
-        cost: row.cost.toDouble(),
-        totalData: energyData.value,
-        totalCost: energyCost.value,
-      );
+    data: row.data,
+    cost: row.cost.toDouble(),
+    totalData: todayEnergyData.value,
+    totalCost: todayEnergyCost.value,
+  );
 
   double percentForCustomItem(EnergyRowModel row) => _calculatePercent(
-        data: row.data,
-        cost: row.cost.toDouble(),
-        totalData: customDateEnergyData.value,
-        totalCost: customDateEnergyCost.value,
-      );
+    data: row.data,
+    cost: row.cost.toDouble(),
+    totalData: customDateEnergyData.value,
+    totalCost: customDateEnergyCost.value,
+  );
 
   double percentForRevenueRow(RevenueRow row) => _calculatePercent(
-        data: row.data,
-        cost: row.cost.toDouble(),
-        totalData: revenueAmount.value,
-        totalCost: costRevenueGaugeValue.value,
-      );
+    data: row.data,
+    cost: row.cost.toDouble(),
+    totalData: revenueAmount.value,
+    totalCost: costRevenueGaugeValue.value,
+  );
 
   Future<void> pickFromDate() async {
     final now = DateTime.now();

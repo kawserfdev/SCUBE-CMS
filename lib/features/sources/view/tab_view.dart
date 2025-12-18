@@ -14,15 +14,20 @@ class DataViewTab extends GetView<SourceDataController> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Wat Value ${controller.todayGaugeValue.value}");
     return Column(
       children: [
-        Obx(
-          () => SemiGauge(
-            valueText: controller.gaugeValue.value.toStringAsFixed(2),
+        Obx(() {
+          final double value = controller.dateMode.value == 0
+              ? controller.todayGaugeValue.value
+              : controller.gaugeValue(); 
+
+          return SemiGauge(
+            valueText: value.toStringAsFixed(2),
             unitText: "kWh/Sqft",
-            progress: _mapGaugeToProgress(controller.gaugeValue.value),
-          ),
-        ),
+            progress: _mapGaugeToProgress(value), 
+          );
+        }),
 
         const SizedBox(height: AppSizes.xl * 3),
 
@@ -75,7 +80,7 @@ class DataViewTab extends GetView<SourceDataController> {
 
   double _mapGaugeToProgress(double v) {
     final x = v.clamp(0, 100);
-    return x / 100.0;
+    return x / 100;
   }
 }
 
