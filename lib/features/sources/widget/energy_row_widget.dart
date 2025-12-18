@@ -4,9 +4,10 @@ import 'package:scubecms/core/constants/app_sizes.dart';
 import 'package:scubecms/features/sources/controller/screen_controller.dart';
 
 class EnergyRow extends StatelessWidget {
-  const EnergyRow({required this.item});
+  const EnergyRow({required this.item, required this.percent});
 
   final EnergyRowModel item;
+  final double percent;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,7 @@ class EnergyRow extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        "${item.data.toStringAsFixed(2)} (${item.percent.toStringAsFixed(2)}%)",
+                        "${item.data.toStringAsFixed(2)} (${percent.toStringAsFixed(2)}%)",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(

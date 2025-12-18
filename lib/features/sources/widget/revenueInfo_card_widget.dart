@@ -10,11 +10,13 @@ class RevenueInfoCard extends StatelessWidget {
     required this.expanded,
     required this.onToggle,
     required this.rows,
+    required this.percentBuilder,
   });
 
   final bool expanded;
   final VoidCallback onToggle;
   final List<RevenueRow> rows;
+  final double Function(RevenueRow row) percentBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +107,7 @@ class RevenueInfoCard extends StatelessWidget {
                     child: InfoPair(
                       dataLabel: "Data $idx",
                       dataValue:
-                          "${r.data.toStringAsFixed(2)} (${r.percent.toStringAsFixed(2)}%)",
+                          "${r.data.toStringAsFixed(2)} (${percentBuilder(r).toStringAsFixed(2)}%)",
                       costLabel: "Cost $idx",
                       costValue: "${r.cost} ৳",
                     ),

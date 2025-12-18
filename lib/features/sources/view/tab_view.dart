@@ -43,6 +43,7 @@ class DataViewTab extends GetView<SourceDataController> {
               ? TodaysEnergyChartCard(
                   totalKw: controller.totalTodayKw.value,
                   items: controller.todaysItems,
+                  percentBuilder: controller.percentForTodaysItem,
                 )
               : Column(
                   children: [
@@ -56,11 +57,13 @@ class DataViewTab extends GetView<SourceDataController> {
                     TodaysEnergyChartCard(
                       totalKw: controller.totalTodayKw.value,
                       items: controller.customDateItems,
+                      percentBuilder: controller.percentForCustomItem,
                     ),
                     SizedBox(height: 8),
                     TodaysEnergyChartCard(
                       totalKw: controller.totalCustomDateKw.value,
                       items: controller.customDateItems,
+                      percentBuilder: controller.percentForCustomItem,
                     ),
                   ],
                 ),
@@ -97,6 +100,7 @@ class RevenueViewTab extends GetView<SourceDataController> {
             onToggle: () => controller.revenueExpanded.value =
                 !controller.revenueExpanded.value,
             rows: controller.revenueRows,
+            percentBuilder: controller.percentForRevenueRow,
           ),
         ),
       ],

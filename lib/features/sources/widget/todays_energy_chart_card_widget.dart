@@ -6,10 +6,15 @@ import 'package:scubecms/features/sources/controller/screen_controller.dart';
 import 'package:scubecms/features/sources/widget/energy_row_widget.dart';
 
 class TodaysEnergyChartCard extends StatelessWidget {
-  const TodaysEnergyChartCard({required this.totalKw, required this.items});
+  const TodaysEnergyChartCard({
+    required this.totalKw,
+    required this.items,
+    required this.percentBuilder,
+  });
 
   final double totalKw;
   final List<EnergyRowModel> items;
+  final double Function(EnergyRowModel) percentBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +56,7 @@ class TodaysEnergyChartCard extends StatelessWidget {
           ...items.map(
             (e) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: EnergyRow(item: e),
+              child: EnergyRow(item: e, percent: percentBuilder(e)),
             ),
           ),
           SizedBox(height: 8),
