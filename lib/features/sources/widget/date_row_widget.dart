@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:scubecms/core/constants/app_colors.dart';
 import 'package:scubecms/core/constants/app_sizes.dart';
 import 'package:scubecms/features/sources/controller/screen_controller.dart';
@@ -12,6 +13,7 @@ class DateRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SourceDataController controller = Get.put(SourceDataController());
     return Row(
       children: [
         Expanded(

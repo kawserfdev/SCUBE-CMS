@@ -102,7 +102,7 @@ class RevenueInfoCard extends StatelessWidget {
                   final idx = i + 1;
                   return Padding(
                     padding: EdgeInsets.only(
-                      bottom: i == rows.length - 1 ? 0 : 4,
+                      bottom: i == rows.length - 1 ? 0 : 8,
                     ),
                     child: InfoPair(
                       dataLabel: "Data $idx",

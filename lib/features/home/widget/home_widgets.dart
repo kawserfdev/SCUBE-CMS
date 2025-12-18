@@ -36,6 +36,7 @@ class CustomAppBar extends GetView<HomeController>
 
   @override
   Widget build(BuildContext context) {
+    HomeController controller = Get.put(HomeController());
     return AppBar(
       backgroundColor: AppColors.white,
       title: const Text(
@@ -96,6 +97,7 @@ class DashboardTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       height: 39,
       decoration: BoxDecoration(
@@ -148,6 +150,7 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Column(
       children: [
         const SizedBox(height: AppSizes.md),
@@ -234,6 +237,7 @@ class SourceLoadSegment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     HomeController controller = Get.put(HomeController());
     return Obx(() {
       final idx = controller.segmentIndex.value;
       return Padding(

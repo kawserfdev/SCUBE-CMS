@@ -12,6 +12,7 @@ class SourceDataView extends GetView<SourceDataController> {
 
   @override
   Widget build(BuildContext context) {
+     SourceDataController controller = Get.put(SourceDataController());
     return Scaffold(
       backgroundColor: AppColors.backgroundLightBlue,
       appBar: CustomAppBar(),

@@ -14,6 +14,7 @@ class DataViewTab extends GetView<SourceDataController> {
 
   @override
   Widget build(BuildContext context) {
+    SourceDataController controller = Get.put(SourceDataController());
     debugPrint("Wat Value ${controller.todayGaugeValue.value}");
     return Column(
       children: [
@@ -89,6 +90,7 @@ class RevenueViewTab extends GetView<SourceDataController> {
 
   @override
   Widget build(BuildContext context) {
+    SourceDataController controller = Get.put(SourceDataController());
     return Column(
       children: [
         Obx(

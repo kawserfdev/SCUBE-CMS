@@ -14,39 +14,34 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: CustomAppBar(),
 
-    return Obx(
-      () => DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: CustomAppBar(), 
+        backgroundColor: AppColors.backgroundLightBlue,
+        body: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: AppSizes.md),
 
-          backgroundColor: AppColors.backgroundLightBlue,
-          body: SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: AppSizes.md),
-            
-                Expanded(
-                  child: DashboardCardShell(
-                    child: Column(
-                      children: [
-                        DashboardTabs(
-                          onChanged: (i) => controller.tabIndex.value = i,
+              Expanded(
+                child: DashboardCardShell(
+                  child: Column(
+                    children: [
+                      DashboardTabs(onChanged: (_) {}),
+                      Expanded(
+                        child: TabBarView(
+                          children: [_summaryTab(), _sldTab(), _dataTab()],
                         ),
-                        Expanded(
-                          child: TabBarView(
-                            children: [_summaryTab(), _sldTab(), _dataTab()],
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-            
-                const QuickActionsGrid(),
-              ],
-            ),
+              ),
+
+              const QuickActionsGrid(),
+            ],
           ),
         ),
       ),
@@ -99,12 +94,14 @@ class HomeScreen extends GetView<HomeController> {
                 ),
               ),
               const SizedBox(height: AppSizes.sm),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: controller.sourceItems
-                    .take(2)
-                    .map((e) => SldNode(icon: e.iconEmoji, label: e.title))
-                    .toList(),
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: controller.sourceItems
+                      .take(2)
+                      .map((e) => SldNode(icon: e.iconEmoji, label: e.title))
+                      .toList(),
+                ),
               ),
               const SizedBox(height: AppSizes.sm),
               Container(height: 40, width: 2, color: AppColors.textDarkBlue),
@@ -115,9 +112,7 @@ class HomeScreen extends GetView<HomeController> {
                 ),
                 decoration: BoxDecoration(
                   color: AppColors.textDarkBlue,
-                  borderRadius: BorderRadius.circular(
-                    AppSizes.borderRadiusSm,
-                  ),
+                  borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
                 ),
                 child: const Text(
                   "MAIN BUS",
@@ -129,12 +124,14 @@ class HomeScreen extends GetView<HomeController> {
               ),
               Container(height: 40, width: 2, color: AppColors.textDarkBlue),
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: controller.loadItems
-                    .take(2)
-                    .map((e) => SldNode(icon: e.iconEmoji, label: e.title))
-                    .toList(),
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: controller.loadItems
+                      .take(2)
+                      .map((e) => SldNode(icon: e.iconEmoji, label: e.title))
+                      .toList(),
+                ),
               ),
               const SizedBox(height: AppSizes.sm),
               const Text(
@@ -149,7 +146,7 @@ class HomeScreen extends GetView<HomeController> {
         ),
         const SizedBox(height: 20),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal:  16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: DataTile(
             item: HomeDataItem(
               title: "Main Bus Status",
@@ -159,7 +156,7 @@ class HomeScreen extends GetView<HomeController> {
               data2: 50.0,
               iconEmoji: AppAssets.charge,
               colorBox: AppColors.primary,
-             routeName: AppRoutes.analysis
+              routeName: AppRoutes.analysis,
             ),
           ),
         ),
@@ -170,24 +167,25 @@ class HomeScreen extends GetView<HomeController> {
   Widget _dataTab() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        children: [
-          const SectionTitle(title: "System Data"),
-          ...controller.sourceItems.map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: DataTile(item: item),
+      child: Obx(
+        () => Column(
+          children: [
+            const SectionTitle(title: "System Data"),
+            ...controller.sourceItems.map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: DataTile(item: item),
+              ),
             ),
-          ),
-          ...controller.loadItems.map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: DataTile(item: item),
+            ...controller.loadItems.map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: DataTile(item: item),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-

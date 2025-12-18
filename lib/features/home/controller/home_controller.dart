@@ -5,14 +5,14 @@ import 'package:scubecms/routes/app_routes.dart';
 import '../../../core/constants/app_colors.dart';
 
 class HomeController extends GetxController {
-    final ScrollController dataScrollController = ScrollController();
-
-
-  final RxInt tabIndex = 0.obs;
+  final ScrollController dataScrollController = ScrollController();
 
   final RxInt segmentIndex = 0.obs;
 
-  final RxDouble totalPowerKw = 5.53.obs;
+  final RxDouble totalPowerKw = 0.0.obs;
+
+  final RxDouble sourceTotalData1 = 0.0.obs;
+  final RxDouble loadTotalData1 = 0.0.obs;
 
   final RxInt notificationLength = 7.obs;
 
@@ -34,7 +34,7 @@ class HomeController extends GetxController {
         data2: 58805.63,
         iconEmoji: AppAssets.solar,
         colorBox: AppColors.dataBlue,
-        routeName: AppRoutes.sourceDataView
+        routeName: AppRoutes.sourceDataView,
       ),
       HomeDataItem(
         title: "Data Type 2",
@@ -42,9 +42,9 @@ class HomeController extends GetxController {
         isActive: true,
         data1: 55505.63,
         data2: 58805.63,
-        iconEmoji:  AppAssets.battery ,
+        iconEmoji: AppAssets.battery,
         colorBox: AppColors.dataOrange,
-         routeName: AppRoutes.sourceDataView
+        routeName: AppRoutes.sourceDataView,
       ),
       HomeDataItem(
         title: "Data Type 3",
@@ -52,11 +52,11 @@ class HomeController extends GetxController {
         isActive: false,
         data1: 55505.63,
         data2: 58805.63,
-        iconEmoji:  AppAssets.pawer,
+        iconEmoji: AppAssets.pawer,
         colorBox: AppColors.dataBlue,
-         routeName: AppRoutes.sourceDataView
+        routeName: AppRoutes.sourceDataView,
       ),
-       HomeDataItem(
+      HomeDataItem(
         title: "Data View",
         statusText: "(Active)",
         isActive: true,
@@ -64,7 +64,7 @@ class HomeController extends GetxController {
         data2: 58805.63,
         iconEmoji: AppAssets.solar,
         colorBox: AppColors.dataBlue,
-         routeName: AppRoutes.sourceDataView
+        routeName: AppRoutes.sourceDataView,
       ),
     ]);
 
@@ -77,11 +77,52 @@ class HomeController extends GetxController {
         data2: 18001.10,
         iconEmoji: AppAssets.pawer,
         colorBox: AppColors.dataBlue,
-         routeName: AppRoutes.sourceDataView
+        routeName: AppRoutes.sourceDataView,
       ),
     ]);
+
+    _recalcSourceTotals();
+    _recalcLoadTotals();
+    _syncSelectedSegmentView();
+
+    ever<List<HomeDataItem>>(sourceItems, (_) {
+      _recalcSourceTotals();
+      _syncSelectedSegmentView();
+    });
+
+    ever<List<HomeDataItem>>(loadItems, (_) {
+      _recalcLoadTotals();
+      _syncSelectedSegmentView();
+    });
+
+    ever<int>(segmentIndex, (_) => _syncSelectedSegmentView());
   }
-    @override
+
+  void _recalcSourceTotals() {
+    _recalcTotals(sourceItems, sourceTotalData1);
+  }
+
+  void _recalcLoadTotals() {
+    _recalcTotals(loadItems, loadTotalData1);
+  }
+
+  void _recalcTotals(
+    List<HomeDataItem> items,
+    RxDouble total1,
+  ) {
+    total1.value = items.fold<double>(
+      0.0,
+      (sum, item) => sum + item.data1,
+    );
+  }
+
+  void _syncSelectedSegmentView() {
+    final bool isSource = segmentIndex.value == 0;
+    totalPowerKw.value = isSource ? sourceTotalData1.value : loadTotalData1.value;
+    hasData.value = isSource ? sourceItems.isNotEmpty : loadItems.isNotEmpty;
+  }
+
+  @override
   void onClose() {
     dataScrollController.dispose();
     super.onClose();
@@ -97,7 +138,7 @@ class HomeDataItem {
     required this.data2,
     required this.iconEmoji,
     required this.colorBox,
-    required this.routeName 
+    required this.routeName,
   });
 
   final String title;
